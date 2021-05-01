@@ -40,12 +40,12 @@ client.on('message', (message) => {
 
       // DELETE LINE
     } else if (messageContent.startsWith(commands.deleteLine)) {
-      deleteLine(extractCommandArgument(messageContent, commands.deleteLine), message)
+      deleteLine(extractContent(messageContent, commands.deleteLine), message)
     }
   }
 })
 
-// HANDLE CREATE FILE
+// Handle CREATE FILE
 const addFile = (fileName, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err, data) => {
   const json = JSON.parse(data)
   json.files[fileName] = {
@@ -53,53 +53,43 @@ const addFile = (fileName, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err, 
   }
   json.active = fileName
 
-  fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), (err, data) => {
-    if (err) console.log(`Error: ${err}`)
-    sendCode(json.active, json.files[json.active].lines, messageObj)
-  })
+  updateDatabase(json, messageObj)
 })
 
-// HANDLE ADD NEW LINE
+// Handle ADD NEW LINE
 const addNewLine = (newLine, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err, data) => {
   const json = JSON.parse(data)
   json.files[json.active].lines.push(newLine)
 
-  fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), (err, data) => {
-    if (err) console.log(`Error: ${err}`)
-    sendCode(json.active, json.files[json.active].lines, messageObj)
-  })
+  updateDatabase(json, messageObj)
 })
 
+// Handle EDIT LINE
 const editLine = (lineNumber, newValue, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err, data) => {
   const json = JSON.parse(data)
   json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
 
-  fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), (err, data) => {
-    if (err) console.log(`Error: ${err}`)
-    sendCode(json.active, json.files[json.active].lines, messageObj)
-  })
+  updateDatabase(json, messageObj)
 })
 
+// Handle DELETE LINE
 const deleteLine = (lineNumber, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err, data) => {
   const json = JSON.parse(data)
   json.files[json.active].lines.splice(parseInt(lineNumber) - 1, 1)
 
-  fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), (err, data) => {
-    if (err) console.log(`Error: ${err}`)
-    sendCode(json.active, json.files[json.active].lines, messageObj)
-  })
+  updateDatabase(json, messageObj)
 })
 
-// EXTRACT MESSAGE WITHOUT COMMAND
+// Extract message content
 const extractContent = (messageContent, command) => messageContent.slice(command.length + 1)
 
-// EXTRACT COMMAND ARGUMENT 
+// Extract command argument
 const extractCommandArgument = (messageContent, command) => messageContent.slice(command.length + 1).split("]")[0]
 
-// EXTRACT MESSAGE WITH COMMAND ARGUMENT
+// Extract message content with command argument
 const extractContentWithCommandArgument = (messageContent, command) => messageContent.slice(command.length + 1).split("]")[1].slice(1)
 
-// SEND CODE TO CHANNEL
+// Send code to channel
 const sendCode = (fileName, lines, messageObj) => {
   const openingClosing = "```"
   const title = `// ${fileName}`
@@ -126,4 +116,11 @@ const isCommandMessage = (message) => {
   }
   return false
 }
+
+// Update database with new JSON
+const updateDatabase = (json, messageObj) => 
+  fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), (err, data) => {
+    if (err) console.log(`Error: ${err}`)
+    sendCode(json.active, json.files[json.active].lines, messageObj)
+  })
 
