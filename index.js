@@ -29,6 +29,14 @@ client.on('message', (message) => {
       // ADD NEW LINE
     } else if (messageContent.startsWith(commands.new)) {
       addNewLine(extractContent(messageContent, commands.new), message)
+
+      // EDIT LINE
+    } else if (messageContent.startsWith(commands.editLine)) {
+      editLine(
+        extractCommandArgument(messageContent, commands.editLine), 
+        extractContentWithCommandArgument(messageContent, commands.editLine),
+        message
+      )
     }
   }
 })
@@ -58,8 +66,24 @@ const addNewLine = (newLine, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err
   })
 })
 
+const editLine = (lineNumber, newValue, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err, data) => {
+  const json = JSON.parse(data)
+  json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
+
+  fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), (err, data) => {
+    if (err) console.log(`Error: ${err}`)
+    sendCode(json.active, json.files[json.active].lines, messageObj)
+  })
+})
+
 // EXTRACT MESSAGE WITHOUT COMMAND
 const extractContent = (messageContent, command) => messageContent.slice(command.length + 1)
+
+// EXTRACT COMMAND ARGUMENT 
+const extractCommandArgument = (messageContent, command) => messageContent.slice(command.length + 1).split("]")[0]
+
+// EXTRACT MESSAGE WITH COMMAND ARGUMENT
+const extractContentWithCommandArgument = (messageContent, command) => messageContent.slice(command.length + 1).split("]")[1].slice(1)
 
 // SEND CODE TO CHANNEL
 const sendCode = (fileName, lines, messageObj) => {
