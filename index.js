@@ -41,6 +41,10 @@ client.on('message', function (message) {
       // DELETE LINE
     } else if (messageContent.startsWith(commands.deleteLine)) {
       deleteLine(extractContent(messageContent, commands.deleteLine), message)
+      
+      //ACTIVATE
+    } else if (messageContent.startsWith(commands.activate)) {
+      activate(extractContent(messageContent, commands.activate), message)
     }
   }
 })
@@ -83,6 +87,16 @@ function deleteLine (lineNumber, messageObj) {
   fs.readFile(DATABASE_FILE_NAME, function (err, data) {
     const json = JSON.parse(data)
     json.files[json.active].lines.splice(parseInt(lineNumber) - 1, 1)
+  
+    updateDatabase(json, messageObj)
+  })
+}
+
+// Handle ACTIVATE
+function activate (fileName, messageObj) {
+  fs.readFile(DATABASE_FILE_NAME, function (err, data) {
+    const json = JSON.parse(data)
+    json.active = fileName
   
     updateDatabase(json, messageObj)
   })
