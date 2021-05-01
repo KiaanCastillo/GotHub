@@ -1,2 +1,2 @@
 # GotHub
-Got GitHub? Nah, git GotHub
+Got GitHub? Nah, gotta get git GotHub
