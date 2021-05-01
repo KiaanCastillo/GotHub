@@ -69,7 +69,7 @@ function addNewLine (newLine, messageObj) {
     json.files[json.active].lines.push(newLine)
     updateDatabase(json, messageObj)
   }) 
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + " - *NEW LINE ADDED* " + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + "*NEW LINE ADDED* " + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
@@ -77,12 +77,13 @@ function addNewLine (newLine, messageObj) {
 function editLine (lineNumber, newValue, messageObj) {
   fs.readFile(DATABASE_FILE_NAME, function (err, data) {
     const json = JSON.parse(data)
+    const oldValue = json.files[json.active].lines[parseInt(lineNumber) - 1]
     json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
 
     updateDatabase(json, messageObj)
+    messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + '\n' + "Edited line " + lineNumber + " from: " + '\n' + oldValue + '\n' + "to:" + '\n' + newValue + '\n' + "--------------------------------------------" + '\n')
+    messageObj.channel.bulkDelete(100); // clear chat after delete
   })
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + " - *EDIT LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
-  messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
 // Handle DELETE LINE
@@ -94,7 +95,7 @@ function deleteLine (lineNumber, messageObj) {
     updateDatabase(json, messageObj)
   })
   
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + " - *DELETE LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change: *DELETE LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
@@ -103,9 +104,9 @@ function activate (fileName, messageObj) {
   fs.readFile(DATABASE_FILE_NAME, function (err, data) {
     const json = JSON.parse(data)
     json.active = fileName
-  
+
     updateDatabase(json, messageObj)
-  })
+})
 }
 
 // Extract message content
