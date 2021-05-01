@@ -3,7 +3,7 @@ const { commands } = require('./config.json')
 const client = new Discord.Client()
 const dotenv = require('dotenv')
 const fs = require('fs')
-const DATABASE_FILE_NAME = "database.json"
+const DATABASE_FILE_NAME = "database/database.json"
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
