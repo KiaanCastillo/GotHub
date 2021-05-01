@@ -45,6 +45,10 @@ client.on('message', function (message) {
       //ACTIVATE
     } else if (messageContent.startsWith(commands.activate)) {
       activate(extractContent(messageContent, commands.activate), message)
+
+      // EXPORT 
+    } else if (messageContent.startsWith(commands.export)) {
+      exportActiveFile(extractContent(messageContent, commands.export), message)
     }
   }
 })
@@ -107,6 +111,19 @@ function activate (fileName, messageObj) {
 
     updateDatabase(json, messageObj)
 })
+}
+
+// Handle EXPORT 
+function exportActiveFile (extension, messageObj) {
+  fs.readFile(DATABASE_FILE_NAME, function (err, data) {
+    const json = JSON.parse(data)
+    const fileName = `${json.active}.${extension}`
+    const newFile = fs.writeFileSync(fileName, json.files[json.active].lines.join("\n"))
+    messageObj.channel.send(`--------------------------------------------\nExporting: ${fileName}\n--------------------------------------------
+    `, {
+      files: [fileName]
+    })
+  })
 }
 
 // Extract message content
