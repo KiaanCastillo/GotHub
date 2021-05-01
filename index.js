@@ -41,6 +41,10 @@ client.on('message', function (message) {
       // DELETE LINE
     } else if (messageContent.startsWith(commands.deleteLine)) {
       deleteLine(extractContent(messageContent, commands.deleteLine), message)
+      
+      //ACTIVATE
+    } else if (messageContent.startsWith(commands.activate)) {
+      activate(extractContent(messageContent, commands.activate), message)
     }
   }
 })
@@ -94,9 +98,15 @@ function deleteLine (lineNumber, messageObj) {
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
-
-
-
+// Handle ACTIVATE
+function activate (fileName, messageObj) {
+  fs.readFile(DATABASE_FILE_NAME, function (err, data) {
+    const json = JSON.parse(data)
+    json.active = fileName
+  
+    updateDatabase(json, messageObj)
+  })
+}
 
 // Extract message content
 function extractContent (messageContent, command) { return messageContent.slice(command.length + 1) }
