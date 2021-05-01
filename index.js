@@ -15,14 +15,21 @@ dotenv.config()
 client.login(process.env.TOKEN)
 client.on('message', (message) => {
   const messageContent = message.content
-
-  // CREATE FILE
-  if (messageContent.startsWith(commands.create)) {
-    addFile(extractContent(messageContent, commands.create), message)
   
-  // ADD NEW LINE
-  } else if (messageContent.startsWith(commands.new)) {
-    addNewLine(extractContent(messageContent, commands.new), message)
+  if (isCommandMessage(messageContent)) {
+    // DELETE USER MESSAGE
+    message.delete()
+      .then(msg => msg)
+      .catch(console.error)
+
+    // CREATE FILE
+    if (messageContent.startsWith(commands.create)) {
+      addFile(extractContent(messageContent, commands.create), message)
+      
+      // ADD NEW LINE
+    } else if (messageContent.startsWith(commands.new)) {
+      addNewLine(extractContent(messageContent, commands.new), message)
+    }
   }
 })
 
@@ -64,8 +71,6 @@ const sendCode = (fileName, lines, messageObj) => {
   lineString += title
   lineString += '\n'
 
-  console.log(lines)
-
   for (let i = 0; i < lines.length; i++) {
     lineString += `${i + 1} ${lines[i]}\n`
   }
@@ -73,3 +78,13 @@ const sendCode = (fileName, lines, messageObj) => {
   lineString += openingClosing
   messageObj.channel.send(lineString)
 }
+
+const isCommandMessage = (message) => {
+  for (let command in commands) {
+    if (message.startsWith(commands[command])) {
+      return true
+    }
+  }
+  return false
+}
+
