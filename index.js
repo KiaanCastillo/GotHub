@@ -37,7 +37,7 @@ client.on('message', function (message) {
         extractContentWithCommandArgument(messageContent, commands.editLine),
         message
       )
-
+      
       // DELETE LINE
     } else if (messageContent.startsWith(commands.deleteLine)) {
       deleteLine(extractContent(messageContent, commands.deleteLine), message)
@@ -45,10 +45,18 @@ client.on('message', function (message) {
       //ACTIVATE
     } else if (messageContent.startsWith(commands.activate)) {
       activate(extractContent(messageContent, commands.activate), message)
-
+      
       // EXPORT 
     } else if (messageContent.startsWith(commands.export)) {
       exportActiveFile(extractContent(messageContent, commands.export), message)
+      
+      // INSERT
+    } else if (messageContent.startsWith(commands.insert)) {
+      insert(
+        extractCommandArgument(messageContent, commands.insert), 
+        extractContentWithCommandArgument(messageContent, commands.insert),
+        message
+      )
     }
   }
 })
@@ -128,6 +136,21 @@ function exportActiveFile (extension, messageObj) {
     `, {
       files: [fileName]
     })
+  })
+}
+
+// Handle INSERT
+function insert (lineNumber, newValue, messageObj) {
+  fs.readFile(DATABASE_FILE_NAME, function (err, data) {
+    const json = JSON.parse(data)
+    const lines = json.files[json.active].lines
+    lineNumber = parseInt(lineNumber)
+
+    json.files[json.active].lines = [...lines.slice(0, lineNumber - 1), newValue, ...lines.slice(lineNumber - 1)]
+
+    updateDatabase(json, messageObj)
+    messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " inserted into line " + lineNumber + " `" + newValue +  "`" + '\n' + "--------------------------------------------" + '\n')
+    messageObj.channel.bulkDelete(100); // clear chat after delete
   })
 }
 
