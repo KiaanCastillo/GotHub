@@ -81,7 +81,7 @@ function editLine (lineNumber, newValue, messageObj) {
     json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
 
     updateDatabase(json, messageObj)
-    messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + '\n' + "Edited line " + lineNumber + 'n' + " OLD: " + '\n' + oldValue + '\n' + "CURRENT:" + '\n' + newValue + '\n' + "--------------------------------------------" + '\n')
+    messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + '\n' + "Edited Line #" + lineNumber + '\n' + " OLD: " + '\n' + oldValue + '\n' + "CURRENT:" + '\n' + newValue + '\n' + "--------------------------------------------" + '\n')
     messageObj.channel.bulkDelete(100); // clear chat after delete
   })
 }
