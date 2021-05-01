@@ -64,8 +64,10 @@ const sendCode = (fileName, lines, messageObj) => {
   lineString += title
   lineString += '\n'
 
+  console.log(lines)
+
   for (let i = 0; i < lines.length; i++) {
-    lineString += `${i + 1} ${lines[0]}\n`
+    lineString += `${i + 1} ${lines[i]}\n`
   }
 
   lineString += openingClosing
