@@ -37,6 +37,10 @@ client.on('message', (message) => {
         extractContentWithCommandArgument(messageContent, commands.editLine),
         message
       )
+
+      // DELETE LINE
+    } else if (messageContent.startsWith(commands.deleteLine)) {
+      deleteLine(extractCommandArgument(messageContent, commands.deleteLine), message)
     }
   }
 })
@@ -69,6 +73,16 @@ const addNewLine = (newLine, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err
 const editLine = (lineNumber, newValue, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err, data) => {
   const json = JSON.parse(data)
   json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
+
+  fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), (err, data) => {
+    if (err) console.log(`Error: ${err}`)
+    sendCode(json.active, json.files[json.active].lines, messageObj)
+  })
+})
+
+const deleteLine = (lineNumber, messageObj) => fs.readFile(DATABASE_FILE_NAME, (err, data) => {
+  const json = JSON.parse(data)
+  json.files[json.active].lines.splice(parseInt(lineNumber) - 1, 1)
 
   fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), (err, data) => {
     if (err) console.log(`Error: ${err}`)
