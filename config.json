@@ -1,0 +1,13 @@
+{
+  "commands": {
+    "create": "[create]",
+    "new": "[new]",
+    "editLine": "[edit",
+    "deleteLine": "[delete",
+    "export": "[export",
+    "activate": "[activate",
+    "undo": "[undo]",
+    "scramble": "[scramble]",
+    "uwu": "[uwuify]"
+  }
+}
