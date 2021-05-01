@@ -64,7 +64,7 @@ function addFile (fileName, messageObj) {
 
     updateDatabase(json, messageObj)
   })
-  messageObj.channel.send("--------------------------------------------" + '\n' + messageObj.author.username + "Created The New File: " + "`" + fileName + "`" + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + messageObj.author.username + " Created and Made Active File To: " + "`" + fileName + "`" + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
