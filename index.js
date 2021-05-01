@@ -64,6 +64,8 @@ function addFile (fileName, messageObj) {
 
     updateDatabase(json, messageObj)
   })
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + "*NEW FILE CREATED: * " + fileName + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
 // Handle ADD NEW LINE
