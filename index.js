@@ -67,9 +67,10 @@ function addNewLine (newLine, messageObj) {
   fs.readFile(DATABASE_FILE_NAME, function (err, data) {
     const json = JSON.parse(data)
     json.files[json.active].lines.push(newLine)
-  
     updateDatabase(json, messageObj)
   }) 
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change: *NEW LINE ADDED* " + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
 // Handle EDIT LINE
@@ -80,6 +81,8 @@ function editLine (lineNumber, newValue, messageObj) {
 
     updateDatabase(json, messageObj)
   })
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change: *EDIT LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
 // Handle DELETE LINE
@@ -90,6 +93,9 @@ function deleteLine (lineNumber, messageObj) {
   
     updateDatabase(json, messageObj)
   })
+  
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change: *DELETE LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
 // Handle ACTIVATE
