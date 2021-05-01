@@ -64,7 +64,7 @@ function addFile (fileName, messageObj) {
 
     updateDatabase(json, messageObj)
   })
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + "*NEW FILE CREATED: * " + fileName + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "@" + messageObj.author.username + "Created The New File: " + "`" + fileName + "`" + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
@@ -75,7 +75,7 @@ function addNewLine (newLine, messageObj) {
     json.files[json.active].lines.push(newLine)
     updateDatabase(json, messageObj)
   }) 
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + "\n" + "*NEW LINE ADDED* " + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "@" + messageObj.author.username + "Added A New Line" + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
@@ -87,7 +87,7 @@ function editLine (lineNumber, newValue, messageObj) {
     json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
 
     updateDatabase(json, messageObj)
-    messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + '\n' + "***Edited Line*** " + "#" + lineNumber + '\n' + "**Old:** " + '\n' + "`" + oldValue +  "`" + '\n' + "**Current:**" + '\n' + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n')
+    messageObj.channel.send("--------------------------------------------" + '\n' + "@" + messageObj.author.username + "Edited Line " + lineNumber  + "from" + "`" + oldValue +  "`" + "to" + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n')
     messageObj.channel.bulkDelete(100); // clear chat after delete
   })
 }
@@ -101,7 +101,7 @@ function deleteLine (lineNumber, messageObj) {
     updateDatabase(json, messageObj)
   })
   
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + '\n' + "*DELETE LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "@" + messageObj.author.username + "Deleted Line " + lineNumber + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
@@ -113,7 +113,7 @@ function activate (fileName, messageObj) {
 
     updateDatabase(json, messageObj)
 })
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Changed Active File To: " + fileName + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Changed Active File To: " + "`" + fileName + "`" + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
