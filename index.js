@@ -79,6 +79,7 @@ const sendCode = (fileName, lines, messageObj) => {
   messageObj.channel.send(lineString)
 }
 
+// Check if message starts with a command
 const isCommandMessage = (message) => {
   for (let command in commands) {
     if (message.startsWith(commands[command])) {
