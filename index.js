@@ -69,7 +69,7 @@ function addNewLine (newLine, messageObj) {
     json.files[json.active].lines.push(newLine)
     updateDatabase(json, messageObj)
   }) 
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change: *NEW LINE ADDED* " + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + " - *NEW LINE ADDED* " + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
