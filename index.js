@@ -103,15 +103,14 @@ function editLine (lineNumber, newValue, messageObj) {
 
 // Handle DELETE LINE
 function deleteLine (lineNumber, messageObj) {
-    let currentMessage;
   fs.readFile(DATABASE_FILE_NAME, function (err, data) {
     const json = JSON.parse(data)
-    currentMessage = json.files[json.active].lines[parseInt(lineNumber) - 1]
+    const currentMessage = json.files[json.active].lines[parseInt(lineNumber) - 1]
     json.files[json.active].lines.splice(parseInt(lineNumber) - 1, 1)
     updateDatabase(json, messageObj)
+    messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " deleted Line " + lineNumber +  " " + "`" + currentMessage + "`" + '\n' + "--------------------------------------------" + '\n')
+    messageObj.channel.bulkDelete(100); // clear chat after delete
   })
-  messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " deleted Line " + lineNumber +  " " + "`" + currentMessage + "`" + '\n' + "--------------------------------------------" + '\n')
-  messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
 // Handle ACTIVATE
