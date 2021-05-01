@@ -88,20 +88,21 @@ function editLine (lineNumber, newValue, messageObj) {
     json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
 
     updateDatabase(json, messageObj)
-    messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " Edited Line " + lineNumber  + "from" + "`" + oldValue +  "`" + "to" + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n')
+    messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " edited Line " + lineNumber  + "from" + "`" + oldValue +  "`" + "to" + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n')
     messageObj.channel.bulkDelete(100); // clear chat after delete
   })
 }
 
 // Handle DELETE LINE
 function deleteLine (lineNumber, messageObj) {
-    let currentMessage = extractContent(messageObj.content, commands.new)
+    let currentMessage;
   fs.readFile(DATABASE_FILE_NAME, function (err, data) {
     const json = JSON.parse(data)
+    currentMessage = json.files[json.active].lines[parseInt(lineNumber) - 1]
     json.files[json.active].lines.splice(parseInt(lineNumber) - 1, 1)
     updateDatabase(json, messageObj)
   })
-  messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " Deleted Line " + lineNumber +  " " + "`" + currentMessage + "`" + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " deleted Line " + lineNumber +  " " + "`" + currentMessage + "`" + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
@@ -113,7 +114,7 @@ function activate (fileName, messageObj) {
 
     updateDatabase(json, messageObj)
 })
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Changed Active File To: " + "`" + fileName + "`" + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Changed active file to: " + "`" + fileName + "`" + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
