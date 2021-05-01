@@ -81,7 +81,7 @@ function editLine (lineNumber, newValue, messageObj) {
 
     updateDatabase(json, messageObj)
   })
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change: *EDIT LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + " - *EDIT LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
@@ -94,7 +94,7 @@ function deleteLine (lineNumber, messageObj) {
     updateDatabase(json, messageObj)
   })
   
-  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change: *DELETE LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
+  messageObj.channel.send("--------------------------------------------" + '\n' + "Most Recent Change by: " + messageObj.author.username + " - *DELETE LINE*: " + lineNumber + '\n' + "--------------------------------------------" + '\n')
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
 
