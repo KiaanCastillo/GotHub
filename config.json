@@ -10,6 +10,8 @@
     "scramble": "[scramble]",
     "uwu": "[uwuify]",
     "insert": "[insert",
-    "files": "[files]"
+    "files": "[files]",
+    "drop": "[drop]",
+    "commands": "[commands]"
   }
 }

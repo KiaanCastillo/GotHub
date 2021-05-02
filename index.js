@@ -67,6 +67,10 @@ client.on('message', function (message) {
       // FILES
     } else if (messageContent.startsWith(commands.files)) {
       listFiles(message)
+
+      // DROP
+    } else if (messageContent.startsWith(commands.drop)) {
+      dropFile(extractContent(messageContent, commands.drop), message)
     }
   }
 })
@@ -195,6 +199,20 @@ function listFiles (messageObj) {
     }
 
     messageObj.channel.send(`${LINE_SEPARATOR}\n${label}\n${filesListString}${LINE_SEPARATOR}`)
+  })
+}
+
+function dropFile (fileName, messageObj) {
+  fs.readFile(DATABASE_FILE_NAME, function (err, data) {
+    const json = JSON.parse(data)
+    const label = `**${messageObj.author.username}** dropped file \`${fileName}\``
+    delete json.files[fileName]
+
+    fs.writeFile(DATABASE_FILE_NAME, JSON.stringify(json), function (err, data) {
+      if (err) console.log(`Error: ${err}`)
+    })
+
+    messageObj.channel.send(`${LINE_SEPARATOR}\n${label}\n${LINE_SEPARATOR}`)
   })
 }
 
