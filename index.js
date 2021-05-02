@@ -3,6 +3,7 @@ const { commands } = require('./config.json')
 const client = new Discord.Client()
 const dotenv = require('dotenv')
 const fs = require('fs')
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants')
 const DATABASE_FILE_NAME = "database/database.json"
 
 // when the client is ready, run this code
@@ -57,6 +58,10 @@ client.on('message', function (message) {
         extractContentWithCommandArgument(messageContent, commands.insert),
         message
       )
+
+      // UWUIFY
+    } else if (messageContent.startsWith(commands.uwu)) {
+      uwu(extractContent(messageContent, commands.uwu), message)
     }
   }
 })
@@ -153,6 +158,23 @@ function insert (lineNumber, newValue, messageObj) {
   })
 }
 
+// Handle UWU
+function uwu (extension, messageObj) {
+  fs.readFile(DATABASE_FILE_NAME, function (err, data) {
+    const json = JSON.parse(data)
+    
+    for (var i = 0; i < json.files[json.active].lines.length; i++) {
+      json.files[json.active].lines[i] = json.files[json.active].lines[i].replaceAll('l','w');
+      json.files[json.active].lines[i] = json.files[json.active].lines[i].replaceAll('r','w');
+      json.files[json.active].lines[i] = json.files[json.active].lines[i].replaceAll('the','da');
+    }
+
+    updateDatabase(json, messageObj)
+  })
+  messageObj.channel.send("temp")
+  messageObj.channel.bulkDelete(100); // clear chat after delete
+}
+
 // Extract message content
 function extractContent (messageContent, command) { return messageContent.slice(command.length + 1) }
 
@@ -198,5 +220,4 @@ function updateDatabase (json, messageObj) {
     if (err) console.log(`Error: ${err}`)
     sendCode(json.active, json.files[json.active].lines, messageObj)
   })
-} 
-
+}
