@@ -210,7 +210,9 @@ function insert (lineNumber, newValue, messageObj) {
     json.files[json.active].lines = [...lines.slice(0, lineNumber - 1), newValue, ...lines.slice(lineNumber - 1)]
 
     updateDatabase(json, messageObj)
-    messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " inserted into line " + lineNumber + " `" + newValue +  "`" + '\n' + "--------------------------------------------" + '\n')
+    let changes = "**" + messageObj.author.username + "**" + " inserted into line " + lineNumber + " `" + newValue +  "`" + '\n'
+    addToHistory(changes)
+    messageObj.channel.send(LINE_SEPERATOR + 'n' + changes + LINE_SEPARATOR)
     messageObj.channel.bulkDelete(100); // clear chat after delete
   })
 }
