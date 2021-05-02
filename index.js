@@ -3,8 +3,13 @@ const { commands } = require('./config.json')
 const client = new Discord.Client()
 const dotenv = require('dotenv')
 const fs = require('fs')
+<<<<<<< Updated upstream
 const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants')
+=======
+
+>>>>>>> Stashed changes
 const DATABASE_FILE_NAME = "database/database.json"
+const LINE_SEPARATOR = "--------------------------------------------"
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
@@ -62,6 +67,10 @@ client.on('message', function (message) {
       // UWUIFY
     } else if (messageContent.startsWith(commands.uwu)) {
       uwu(extractContent(messageContent, commands.uwu), message)
+      
+      // FILES
+    } else if (messageContent.startsWith(commands.files)) {
+      listFiles(message)
     }
   }
 })
@@ -173,6 +182,24 @@ function uwu (extension, messageObj) {
   })
   messageObj.channel.send("temp")
   messageObj.channel.bulkDelete(100); // clear chat after delete
+}
+  
+// Handle LIST FILES
+function listFiles (messageObj) {
+  fs.readFile(DATABASE_FILE_NAME, function (err, data) {
+    const json = JSON.parse(data)
+    const fileNames = Object.keys(json.files)
+    const numFiles = fileNames.length
+    const suffix = numFiles === 1 ? "file" : "files"
+    const label = `**There ${numFiles === 1 ? "is" : "are"} ${numFiles} ${suffix} available:**`
+    let filesListString = ""
+
+    for (let file of fileNames) {
+      filesListString += `- ${file}\n`
+    }
+
+    messageObj.channel.send(`${LINE_SEPARATOR}\n${label}\n${filesListString}${LINE_SEPARATOR}`)
+  })
 }
 
 // Extract message content
