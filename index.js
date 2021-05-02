@@ -152,7 +152,7 @@ function editLine (lineNumber, newValue, messageObj) {
     json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
 
     updateDatabase(json, messageObj)
-    let changes = "--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " edited Line " + lineNumber  + "from" + "`" + oldValue +  "`" + "to" + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n'
+    let changes = "--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " edited Line " + lineNumber  + " from " + "`" + oldValue +  "`" + " to " + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n'
     messageObj.channel.send(changes)
     addToHistory(changes)
     messageObj.channel.bulkDelete(100); // clear chat after delete
@@ -221,14 +221,14 @@ function uwu (extension, messageObj) {
     const json = JSON.parse(data)
     
     for (var i = 0; i < json.files[json.active].lines.length; i++) {
-      json.files[json.active].lines[i] = json.files[json.active].lines[i].replaceAll(/l/g,'w');
-      json.files[json.active].lines[i] = json.files[json.active].lines[i].replaceAll(/r/g,'w');
-      json.files[json.active].lines[i] = json.files[json.active].lines[i].replaceAll(/the/g,'da');
+      json.files[json.active].lines[i] = json.files[json.active].lines[i].replace(/l/g,'w');
+      json.files[json.active].lines[i] = json.files[json.active].lines[i].replace(/r/g,'w');
+      json.files[json.active].lines[i] = json.files[json.active].lines[i].replace(/the/g,'da');
     }
 
     updateDatabase(json, messageObj)
   })
-  messageObj.channel.send("temp")
+  messageObj.channel.send("someone uwuified")
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
   
