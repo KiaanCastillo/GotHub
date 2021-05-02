@@ -159,13 +159,7 @@ function editLine (lineNumber, newValue, messageObj) {
     json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
 
     updateDatabase(json, messageObj)
-<<<<<<< Updated upstream
-    let changes = "--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " edited Line " + lineNumber  + "from" + "`" + oldValue +  "`" + "to" + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n'
-    messageObj.channel.send(changes)
-    addToHistory(changes, messageObj)
-=======
     messageObj.channel.send("--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " edited Line " + lineNumber  + " from " + "`" + oldValue +  "`" + " to " + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n')
->>>>>>> Stashed changes
     messageObj.channel.bulkDelete(100); // clear chat after delete
   })
 }
