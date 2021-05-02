@@ -12,6 +12,7 @@
     "insert": "[insert",
     "files": "[files]",
     "drop": "[drop]",
-    "commands": "[commands]"
+    "commands": "[commands]",
+    "history": "[history]"
   }
 }
