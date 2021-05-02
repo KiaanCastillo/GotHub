@@ -124,8 +124,8 @@ function addFile (fileName, messageObj) {
     updateDatabase(json, messageObj)
 
   })
-  let changes = "--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " created and changed active file to: " + "`" + fileName + "`" + '\n' + "--------------------------------------------" + '\n'
-  messageObj.channel.send(changes)
+  let changes = "**" + messageObj.author.username + "**" + " created and changed active file to: " + "`" + fileName + "`" + '\n'
+  messageObj.channel.send(LINE_SEPERATOR + 'n' + changes + LINE_SEPARATOR)
   addToHistory(changes);
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
@@ -138,8 +138,8 @@ function addNewLine (newLine, messageObj) {
     updateDatabase(json, messageObj)
   }) 
   const currentMessage = extractContent(messageObj.content, commands.new)
-  let changes = "--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " created a new line and changed content to " + "`" + currentMessage + "`" + '\n' + "--------------------------------------------" + '\n'
-  messageObj.channel.send(changes)
+  let changes = "**" + messageObj.author.username + "**" + " created a new line and changed content to " + "`" + currentMessage + "`" + '\n'
+  messageObj.channel.send(LINE_SEPERATOR + 'n' + changes + LINE_SEPARATOR)
   addToHistory(changes)
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
@@ -152,8 +152,8 @@ function editLine (lineNumber, newValue, messageObj) {
     json.files[json.active].lines[parseInt(lineNumber) - 1] = newValue
 
     updateDatabase(json, messageObj)
-    let changes = "--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " edited Line " + lineNumber  + " from " + "`" + oldValue +  "`" + " to " + "`" + newValue + "`" + '\n' + "--------------------------------------------" + '\n'
-    messageObj.channel.send(changes)
+    let changes = "**" + messageObj.author.username + "**" + " edited Line " + lineNumber  + " from " + "`" + oldValue +  "`" + " to " + "`" + newValue + "`" + '\n'
+    messageObj.channel.send(LINE_SEPERATOR + 'n' + changes + LINE_SEPARATOR)
     addToHistory(changes)
     messageObj.channel.bulkDelete(100); // clear chat after delete
   })
@@ -166,8 +166,8 @@ function deleteLine (lineNumber, messageObj) {
     const currentMessage = json.files[json.active].lines[parseInt(lineNumber) - 1]
     json.files[json.active].lines.splice(parseInt(lineNumber) - 1, 1)
     updateDatabase(json, messageObj)
-    let changes = "--------------------------------------------" + '\n' + "**" + messageObj.author.username + "**" + " deleted Line " + lineNumber +  " " + "`" + currentMessage + "`" + '\n' + "--------------------------------------------" + '\n'
-    messageObj.channel.send(changes)
+    let changes = "**" + messageObj.author.username + "**" + " deleted Line " + lineNumber +  " " + "`" + currentMessage + "`" + '\n'
+    messageObj.channel.send(LINE_SEPERATOR + 'n' + changes + LINE_SEPARATOR)
     addToHistory(changes)
     messageObj.channel.bulkDelete(100); // clear chat after delete
   })
@@ -181,8 +181,8 @@ function activate (fileName, messageObj) {
 
     updateDatabase(json, messageObj)
 })
-  let changes = "--------------------------------------------" + '\n' + "Changed active file to: " + "`" + fileName + "`" + '\n' + "--------------------------------------------" + '\n'
-  messageObj.channel.send(changes)
+  let changes = "Changed active file to: " + "`" + fileName + "`" + '\n'
+  messageObj.channel.send(LINE_SEPERATOR + 'n' + changes + LINE_SEPARATOR)
   addToHistory(changes)
   messageObj.channel.bulkDelete(100); // clear chat after delete
 }
