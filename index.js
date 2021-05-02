@@ -3,11 +3,7 @@ const { commands } = require('./config.json')
 const client = new Discord.Client()
 const dotenv = require('dotenv')
 const fs = require('fs')
-<<<<<<< Updated upstream
-const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants')
-=======
 
->>>>>>> Stashed changes
 const DATABASE_FILE_NAME = "database/database.json"
 const LINE_SEPARATOR = "--------------------------------------------"
 
