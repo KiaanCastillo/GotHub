@@ -21,7 +21,8 @@ const COMMAND_DEFINITIONS = {
   "insert": "[insert `line number`] `value`: Inserts a new line at the specified line number with the specified value",
   "files": "[files]: Lists the names of the files created",
   "drop": "[drop] `file name`: Drops the specified file",
-  "commands": "[commands]: Lists the commands available"
+  "commands": "[commands]: Lists the commands available",
+  "history": "[history]: Lists the history of all the files"
 }
 
 // when the client is ready, run this code
@@ -108,7 +109,7 @@ function printHistory(messageObj){
     for (let i = 0; i < history.length; i++){
       historyList += history[i]
     }
-    messageObj.channel.send("History of Project Changes:" + '\n' + historyList + '\n')
+    messageObj.channel.send("**History of Project Changes:**" + '\n' + historyList + '\n')
   
 }
 
