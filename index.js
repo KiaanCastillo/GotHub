@@ -6,6 +6,19 @@ const fs = require('fs')
 
 const DATABASE_FILE_NAME = "database/database.json"
 const LINE_SEPARATOR = "--------------------------------------------"
+const COMMAND_DEFINITIONS = {
+  "create": "[create]: Creates a new file and sets it as the active file",
+  "new": "[new]: Adds a new line to the active file",
+  "editLine": "[edit `line number`] `value`: Edits an existing line and replaces it with the new value",
+  "deleteLine": "[delete] `line number`: Deletes a line number",
+  "export": "[export] `extension`: Exports the file into the desired extension (e.g. js, cpp, css, java)",
+  "activate": "[activate] `file name`: Sets the activate file",
+  "uwu": "[uwuify]: Sets da file into a cute vewsion",
+  "insert": "[insert `line number`] `value`: Inserts a new line at the specified line number with the specified value",
+  "files": "[files]: Lists the names of the files created",
+  "drop": "[drop] `file name`: Drops the specified file",
+  "commands": "[commands]: Lists the commands available"
+}
 
 // when the client is ready, run this code
 // this event will only trigger one time after logging in
@@ -71,6 +84,10 @@ client.on('message', function (message) {
       // DROP
     } else if (messageContent.startsWith(commands.drop)) {
       dropFile(extractContent(messageContent, commands.drop), message)
+
+      // COMMANDS
+    } else if (messageContent.startsWith(commands.commands)) {
+      listCommands(message)
     }
   }
 })
@@ -214,6 +231,17 @@ function dropFile (fileName, messageObj) {
 
     messageObj.channel.send(`${LINE_SEPARATOR}\n${label}\n${LINE_SEPARATOR}`)
   })
+}
+
+function listCommands (messageObj) {
+  const label = "**GotHub Command List**"
+  let commandsListString = ""
+
+  for (let command of Object.values(COMMAND_DEFINITIONS)) {
+    commandsListString += `- ${command}\n`
+  }
+
+  messageObj.channel.send(`${LINE_SEPARATOR}\n${label}\n${commandsListString}${LINE_SEPARATOR}`)
 }
 
 // Extract message content
